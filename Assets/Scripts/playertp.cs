@@ -8,6 +8,12 @@ public class playertp : MonoBehaviour
 
     public Transform tpp;
     public Transform man;
+    public Vector3 Tp1;
+    public Vector3 Tp2;
+    public float FireRate = 1f;
+    float NextFire = 0f;
+    float TpCount = 1f;
+    
 
     playermovementscript playerController;
     
@@ -25,15 +31,35 @@ public class playertp : MonoBehaviour
         {
             StartCoroutine(Teleport());
         }
-     
+
+        if (Input.GetButton("Fire2") && Time.time > NextFire)
+        {
+            NextFire = Time.time + FireRate;
+        
+            TpCount = TpCount + 1f;
+
+            if (TpCount == 4f);
+            {
+                TpCount = 1f;
+            }
+        }
+
     }
 
     IEnumerator Teleport()
     {
         playerController.disabled = true;
-        yield return new WaitForSeconds(0.01f);
-        gameObject.transform.position = new Vector3(90f, 0f, 0f);
+        yield return new WaitForSeconds(0.2f);
+        if (TpCount == 1f)
+        {
+            gameObject.transform.position = Tp1;
+        }
+        else if (TpCount == 2f)
+        {
+            gameObject.transform.position = Tp2;
+        }
         yield return new WaitForSeconds(1f);
         playerController.disabled = false;
     }
+
 }
