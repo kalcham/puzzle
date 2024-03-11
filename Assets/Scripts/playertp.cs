@@ -10,6 +10,7 @@ public class playertp : MonoBehaviour
     public Transform man;
     public Vector3 Tp1;
     public Vector3 Tp2;
+    public Vector3 Tp3;
     public float FireRate = 1f;
     float NextFire = 0f;
     float TpCount = 1f;
@@ -35,10 +36,10 @@ public class playertp : MonoBehaviour
         if (Input.GetButton("Fire2") && Time.time > NextFire)
         {
             NextFire = Time.time + FireRate;
-        
-            TpCount = TpCount + 1f;
 
-            if (TpCount == 4f);
+            TpCount += 1;
+
+            if (TpCount >= 4f)
             {
                 TpCount = 1f;
             }
@@ -57,6 +58,10 @@ public class playertp : MonoBehaviour
         else if (TpCount == 2f)
         {
             gameObject.transform.position = Tp2;
+        }
+        else if (TpCount == 3f)
+        {
+            gameObject.transform.position = Tp3;
         }
         yield return new WaitForSeconds(1f);
         playerController.disabled = false;
