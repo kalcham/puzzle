@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-
+using TMPro;
+using UnityEngine.UI;
 public class playertp : MonoBehaviour
 {
 
@@ -14,7 +15,7 @@ public class playertp : MonoBehaviour
     public float FireRate = 1f;
     float NextFire = 0f;
     float TpCount = 1f;
-    
+    public TMP_Text TpIndicator;
 
     playermovementscript playerController;
     
@@ -44,7 +45,7 @@ public class playertp : MonoBehaviour
                 TpCount = 1f;
             }
         }
-
+        TpIndicator.SetText("Current tp: " + TpCount);
     }
 
     IEnumerator Teleport()
