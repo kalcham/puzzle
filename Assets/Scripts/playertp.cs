@@ -14,9 +14,10 @@ public class playertp : MonoBehaviour
     public Vector3 Tp3;
     public float FireRate = 1f;
     float NextFire = 0f;
+    float NextFire2 = 0f;
     float TpCount = 1f;
     public TMP_Text TpIndicator;
-
+    public bool teleporting;
     playermovementscript playerController;
     
 
@@ -24,19 +25,23 @@ public class playertp : MonoBehaviour
     void Start()
     {
         playerController = gameObject.GetComponent<playermovementscript>();
+        TpIndicator.SetText("Current Time: Present");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Fire1"))
-        {
-            StartCoroutine(Teleport());
-        }
-
-        if (Input.GetButton("Fire2") && Time.time > NextFire)
+        if (Input.GetButtonDown("Fire1") && Time.time > NextFire)
         {
             NextFire = Time.time + FireRate;
+            teleporting = true;
+            StartCoroutine(Teleport());
+            
+        }
+
+        if (Input.GetButtonDown("Fire2") && Time.time > NextFire2)
+        {
+            NextFire2 = Time.time + FireRate;
 
             TpCount += 1;
 
@@ -44,28 +49,38 @@ public class playertp : MonoBehaviour
             {
                 TpCount = 1f;
             }
+            if (TpCount == 1f)
+            {
+                TpIndicator.SetText("Current Time: Present");
+            }
+            if (TpCount == 2f)
+            {
+                TpIndicator.SetText("Current Time: Future");
+            }
+            if (TpCount == 3f)
+            {
+                TpIndicator.SetText("Current Time: Past");
+            }
         }
-        TpIndicator.SetText("Current tp: " + TpCount);
     }
-
     IEnumerator Teleport()
     {
-        playerController.disabled = true;
-        yield return new WaitForSeconds(0.2f);
+        
         if (TpCount == 1f)
         {
             gameObject.transform.position = Tp1;
         }
-        else if (TpCount == 2f)
+        if (TpCount == 2f)
         {
             gameObject.transform.position = Tp2;
         }
-        else if (TpCount == 3f)
+        if (TpCount == 3f)
         {
             gameObject.transform.position = Tp3;
         }
-        yield return new WaitForSeconds(1f);
-        playerController.disabled = false;
+        yield return new WaitForSeconds(0.1f);
+        teleporting = false;
+
     }
 
 }
