@@ -82,5 +82,8 @@ public class playertp : MonoBehaviour
         teleporting = false;
 
     }
-
+    void OnTriggerEnter(Collider col) 
+    {
+        
+    }
 }
